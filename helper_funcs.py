@@ -27,8 +27,9 @@ def _strip_strings_and_replace_empty_strings_with_none(input_str: str) -> str:
 def _rename_column_headers(original_col_headers: List[str]) -> List[str]:
     column_naming_mapping = {
         "orderdate": "order_date",
-        "restuuid": "rest_uuid",
+        "restuuid": "restaurant_uuid",
         "grouporder": "is_group_order",
+        "uuid": "order_uuid",
     }
     new_col_headers = []
     for original_col_header in original_col_headers:
