@@ -5,7 +5,7 @@ from sqlmodel import Session
 
 from db_engine import DB_ENGINE
 from sql_models import OrderRecord
-from zip_file_reader_funcs import create_record_iterator_from_csvs_in_zip_file
+from helper_funcs import create_record_iterator_from_csvs_in_zip_file
 from sql_models import recreate_db_tables_from_scratch
 
 

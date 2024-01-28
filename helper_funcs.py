@@ -3,6 +3,7 @@ import io
 import zipfile
 from pathlib import Path
 from typing import Iterator, List
+from sqlmodel import text as sql_text
 
 
 def _extract_csv_file_names(zipped_dir: zipfile.ZipFile):
@@ -64,6 +65,14 @@ def create_record_iterator_from_csvs_in_zip_file(
                     line = map(_strip_strings_and_replace_empty_strings_with_none, line)
                     line_record_dict = dict(zip(csv_headers, line))
                     yield line_record_dict
+
+
+def read_sql_files(sql_file_path: Path) -> List[sql_text]:
+    with open(sql_file_path) as f:
+        file_content = f.read()
+    sql_queries_list = file_content.split(";")
+    sql_queries_list = map(sql_text, sql_queries_list)
+    return sql_queries_list
 
 
 if __name__ == "__main__":
