@@ -7,10 +7,11 @@ from db_engine import DB_ENGINE
 
 class OrderRecord(SQLModel, table=True):
     order_uuid: UUID = Field(primary_key=True, unique=True)
+    is_group_order: bool
+    # defining the next rows as indexed before migration will slow down the insertion process a bit, but it's not an issue to tackle now
     order_date: date = Field(index=True)
     user_uuid: UUID = Field(index=True)
     restaurant_uuid: UUID = Field(index=True)
-    is_group_order: bool
 
 
 def recreate_db_tables_from_scratch():
