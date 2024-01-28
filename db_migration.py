@@ -6,6 +6,7 @@ from sqlmodel import Session
 from db_engine import DB_ENGINE
 from sql_models import OrderRecord
 from zip_file_reader_funcs import create_record_iterator_from_csvs_in_zip_file
+from sql_models import recreate_db_tables_from_scratch
 
 
 def commit_order_records_to_db(order_records_list: List[OrderRecord]) -> None:
@@ -15,7 +16,7 @@ def commit_order_records_to_db(order_records_list: List[OrderRecord]) -> None:
     print(f"\nadding {len(order_records_list)} to db")
     with Session(DB_ENGINE) as session:
         session.add_all(order_records_list)
-        session.commit
+        session.commit()
 
 
 def migrate_records_to_db(zip_file_path: Path, batch_size: int = 10_000) -> None:
@@ -60,5 +61,6 @@ def migrate_records_to_db(zip_file_path: Path, batch_size: int = 10_000) -> None
 
 
 if __name__ == "__main__":
+    recreate_db_tables_from_scratch()
     zip_file_path = Path(__file__).parent / "dummy_order_data_6_months.zip"
     migrate_records_to_db(zip_file_path=zip_file_path)
