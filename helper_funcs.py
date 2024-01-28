@@ -2,7 +2,7 @@ import csv
 import io
 import zipfile
 from pathlib import Path
-from typing import Iterator
+from typing import Iterator, List
 
 
 def _extract_csv_file_names(zipped_dir: zipfile.ZipFile):
@@ -24,6 +24,21 @@ def _strip_strings_and_replace_empty_strings_with_none(input_str: str) -> str:
     return input_str if input_str != "" else None
 
 
+def _rename_column_headers(original_col_headers: List[str]) -> List[str]:
+    column_naming_mapping = {
+        "orderdate": "order_date",
+        "restuuid": "rest_uuid",
+        "grouporder": "is_group_order",
+    }
+    new_col_headers = []
+    for original_col_header in original_col_headers:
+        new_col_header = column_naming_mapping.get(
+            original_col_header, original_col_header
+        )
+        new_col_headers.append(new_col_header)
+    return new_col_headers
+
+
 def create_record_iterator_from_csvs_in_zip_file(
     zip_file_path: Path,
 ) -> Iterator[dict[str, str]]:
@@ -42,7 +57,8 @@ def create_record_iterator_from_csvs_in_zip_file(
             with zip_dir.open(csv_file_name) as csv_file:
                 decoded_csv_file = io.TextIOWrapper(csv_file, encoding="utf-8")
                 csv_reader = csv.reader(decoded_csv_file)
-                csv_headers = next(csv_reader)
+                original_csv_headers = next(csv_reader)
+                csv_headers = _rename_column_headers(original_csv_headers)
                 for line in csv_reader:
                     line = map(_strip_strings_and_replace_empty_strings_with_none, line)
                     line_record_dict = dict(zip(csv_headers, line))
