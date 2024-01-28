@@ -1,0 +1,4 @@
+dummy_order_data_6_months.zip
+.venv/*
+sqlite_db.db
+*/**.pyc
