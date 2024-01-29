@@ -36,6 +36,7 @@ def migrate_records_to_db(
         try:
             current_record_dict = next(records_iterator)
             current_record_sqlmodel = OrderRecord.model_validate(current_record_dict)
+            current_record_sqlmodel.order_date_year_month = current_record_sqlmodel.order_date.strftime("%Y%m")
             records_in_batch_list.append(current_record_sqlmodel)
             records_parsed_count += 1
             records_in_batch_count += 1

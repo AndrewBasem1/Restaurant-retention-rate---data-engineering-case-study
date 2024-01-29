@@ -3,15 +3,16 @@ from sqlmodel import Field
 from uuid import UUID
 from datetime import date
 from db_engine import DB_ENGINE
+from typing import Optional
 
 
 class OrderRecord(SQLModel, table=True):
     order_uuid: UUID = Field(primary_key=True, unique=True)
     is_group_order: bool
-    # defining the next rows as indexed before migration will slow down the insertion process a bit, but it's not an issue to tackle now
-    order_date: date = Field(index=True)
-    user_uuid: UUID = Field(index=True)
-    restaurant_uuid: UUID = Field(index=True)
+    order_date: date = Field(index=False)
+    user_uuid: UUID = Field(index=False)
+    restaurant_uuid: UUID = Field(index=False)
+    order_date_year_month: Optional[int] = Field(default=None, index=False)
 
 
 def recreate_db_tables_from_scratch():
