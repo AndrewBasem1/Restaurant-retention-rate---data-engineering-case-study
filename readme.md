@@ -27,3 +27,6 @@ So as a proof of concept, another system was chosen as follows:
 3. Create indices on that SQL table to carry out transformation on scale easily.
 
 Which the latter solution is still not **THE MOST OPTIMIZED**, it's a step above the first solution and has much better scalability.
+
+# How to navigate this repo:
+You can start with [main.ipynb](https://github.com/AndrewBasem1/Restaurant-retention-rate---data-engineering-case-study/blob/main/main.ipynb) this notebook will have the script logic laid down step by step. you'll find that I'm importing some libraries from other .py files, this is done to keep version control better, and to break down the code into seperate files with seperate functions to follow best practices.
