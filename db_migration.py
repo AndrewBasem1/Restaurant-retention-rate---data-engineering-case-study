@@ -19,7 +19,9 @@ def commit_order_records_to_db(order_records_list: List[OrderRecord]) -> None:
         session.commit()
 
 
-def migrate_records_to_db(zip_file_path: Path, batch_size: int = 10_000) -> None:
+def migrate_records_to_db(
+    zip_file_path: Path, batch_size: int = 10_000, max_rows_to_migrate: int = None
+) -> None:
     """
     This function helps in migrating the exisiting records from all ".csv" files into the db with the needed indices and constraints, it also inserts values in batches to save memory
     """
@@ -37,6 +39,8 @@ def migrate_records_to_db(zip_file_path: Path, batch_size: int = 10_000) -> None
             records_in_batch_list.append(current_record_sqlmodel)
             records_parsed_count += 1
             records_in_batch_count += 1
+            if max_rows_to_migrate and records_parsed_count == max_rows_to_migrate:
+                raise StopIteration
             print(f"records parsed: {records_parsed_count}", end="\r")
             if records_in_batch_count == batch_size:
                 commit_order_records_to_db(records_in_batch_list)

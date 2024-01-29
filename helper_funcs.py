@@ -72,7 +72,7 @@ def read_sql_files(sql_file_path: Path) -> List[sql_text]:
         file_content = f.read()
     sql_queries_list = file_content.split(";")
     sql_queries_list = map(sql_text, sql_queries_list)
-    return sql_queries_list
+    return list(sql_queries_list)
 
 
 if __name__ == "__main__":

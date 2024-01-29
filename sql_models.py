@@ -16,8 +16,12 @@ class OrderRecord(SQLModel, table=True):
 
 def recreate_db_tables_from_scratch():
     """Drops all tables if they exist and recreates them from scratch according to our predefined sqlmodel Models."""
-    SQLModel.metadata.drop_all(bind=DB_ENGINE)
-    SQLModel.metadata.create_all(bind=DB_ENGINE)
+    try:
+        SQLModel.metadata.drop_all(bind=DB_ENGINE)
+    except:
+        pass
+    finally:
+        SQLModel.metadata.create_all(bind=DB_ENGINE)
 
 
 if __name__ == "__main__":
